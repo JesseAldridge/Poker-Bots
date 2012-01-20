@@ -18,9 +18,10 @@ def full_house(hand_vals):
         return three_count, two_count
 def flush(cards):
     card_suits = [card.suit for card in cards]
-    for suit in u'♥♦♣♠':
-        if card_suits.count(suit) == 5:
-            return True
+    flush_vals = [card.val for card in cards
+                  if card_suits.count(card.suit) >= 5]
+    if flush_vals:
+        return max(flush_vals)
 def straight(hand_vals):
     hand_vals = sorted(list(set(hand_vals)), reverse=True)
     for i in range(0, len(hand_vals) - 4):
@@ -28,7 +29,7 @@ def straight(hand_vals):
             if hand_vals[j + 1] != hand_vals[j] - 1:
                 break
         else:
-            return True
+            return hand_vals[i]
 def three_of_a_kind(hand_vals):
     for val in hand_vals:
         if hand_vals.count(val) == 3:
